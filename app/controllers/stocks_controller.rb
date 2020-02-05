@@ -9,5 +9,10 @@ class StocksController < ApplicationController
         render json: RestClient.get("https://financialmodelingprep.com/api/v3/search?query=#{params['value']}") 
     end
 
+    def profile
+        # byebug
+        render json: RestClient.get("https://financialmodelingprep.com/api/v3/company/profile/#{params['ticker']}")
+    end
+
 
 end
