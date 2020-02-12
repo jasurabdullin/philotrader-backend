@@ -1,7 +1,7 @@
 class StocksController < ApplicationController
     def index
-        stocks = RestClient.get('https://financialmodelingprep.com/api/v3/company/stock/list')
-        render json: stocks
+        stocks = Stock.all
+        render json: stocks.to_json(:except => [:created_at, :updated_at, :id])
     end
 
     def search
@@ -15,11 +15,19 @@ class StocksController < ApplicationController
     end
 
     def historical_price
-        render json: RestClient.get("https://financialmodelingprep.com/api/v3/historical-price-full/#{params['ticker']}?serietype=line&from=2019-03-06&to=2021-02-06")
+        render json: RestClient.get("https://financialmodelingprep.com/api/v3/historical-price-full/#{params['ticker']}?serietype=line&from=2015-02-010&to=2020-02-10")
     end
 
     def income_statement
         render json: RestClient.get("https://financialmodelingprep.com/api/v3/financials/income-statement/#{params['ticker']}")
+    end
+
+    def balance_sheet
+        render json: RestClient.get("https://financialmodelingprep.com/api/v3/financials/balance-sheet-statement/#{params['ticker']}")
+    end
+
+    def news
+        render json: RestClient.get("https://newsapi.org/v2/everything?q=#{params['stock']}&apiKey=1e7b275b05bf49b98ef45e3381cff481")
     end
 
 
